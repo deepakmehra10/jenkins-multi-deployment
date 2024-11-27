@@ -15,14 +15,14 @@ pipeline {
     stages {
         stage('Compile & Build') {
             steps {
-            
+                echo "Compiling"
             }
 
         }
 
         stage('Tagging') {
             steps {
-            
+            echo "Tagging"
             }
         }
 
