@@ -3,7 +3,6 @@
 pipeline {
 
     agent { label 'ubuntu_java-11_docker-20_checkmarx' }
-
     environment {
         SCANNER_HOME=tool 'SonarQube 3.3'
         BUILD_VERSION = sh(script: 'echo "b${BUILD_ID}_$(date +%Y%m%d)"', returnStdout: true).trim()
@@ -23,9 +22,7 @@ pipeline {
 
         stage('Tagging') {
             steps {
-            script {
-                
-            }
+            
             }
         }
 
