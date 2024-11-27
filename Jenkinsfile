@@ -23,6 +23,21 @@ pipeline {
         stage('Tagging') {
             steps {
             echo "Tagging"
+            script{
+                BUILD_NUMBER = env.BUILD_NUMBER  // Jenkins provides a build number
+                    TAG_NAME = "${VERSION}-build-${BUILD_NUMBER}"
+                    echo "Creating tag: ${TAG_NAME}"
+
+                    // Configure git (ensure Jenkins can push)
+                    //sh 'git config --global user.email "youremail@example.com"'
+                    //sh 'git config --global user.name "Your Name"'
+
+                    // Create and push the tag
+                    sh """
+                    git tag ${TAG_NAME}
+                    git push origin ${TAG_NAME}
+                    """
+            }
             }
         }
 
