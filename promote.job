@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'GIT_TAG', defaultValue: '', description: 'Enter the Git tag to deploy')
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'prod'], description: 'Select the environment to deploy to')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    echo "Checking out Git tag: ${params.GIT_TAG}"
+                    sh "git checkout ${params.GIT_TAG}"
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    echo "Deploying to environment: ${params.ENVIRONMENT}"
+
+                    if (params.ENVIRONMENT == 'Dev') {
+                        echo "Deploying to Development environment"
+                    } else if (params.ENVIRONMENT == 'QA') {
+                        echo "Deploying to QA environment"
+                    } else if (params.ENVIRONMENT == 'Prod') {
+                        echo "Deploying to Production environment"
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Promote job completed."
+        }
+    }
+}
