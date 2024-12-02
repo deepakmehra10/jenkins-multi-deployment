@@ -1,24 +1,15 @@
-pipeline {
-    agent any
-
+node("ubuntu_java-11_docker-20") {
     parameters {
         string(name: 'GIT_TAG', defaultValue: '', description: 'Enter the Git tag to deploy')
         choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'prod'], description: 'Select the environment to deploy to')
     }
-
-    stages {
+    try {
         stage('Checkout') {
-            steps {
-                script {
                     echo "Checking out Git tag: ${params.GIT_TAG}"
                     sh "git checkout ${params.GIT_TAG}"
                 }
-            }
-        }
 
         stage('Deploy') {
-            steps {
-                script {
                     echo "Deploying to environment: ${params.ENVIRONMENT}"
 
                     if (params.ENVIRONMENT == 'Dev') {
@@ -28,14 +19,11 @@ pipeline {
                     } else if (params.ENVIRONMENT == 'Prod') {
                         echo "Deploying to Production environment"
                     }
-                }
-            }
         }
-    }
-
-    post {
-        always {
-            echo "Promote job completed."
-        }
+    } catch(Exception e) {
+        echo "Something wend wrong, please check"
+    } finally {
+         echo "Clean up in post work space"
+               cleanWs()
     }
 }
