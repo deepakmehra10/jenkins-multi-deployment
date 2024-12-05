@@ -25,7 +25,7 @@ string(name: 'GIT_TAG', defaultValue: '', description: 'Enter the Git tag to dep
 
         stage('Deploy') {
                     echo "Deploying to environment: ${params.ENVIRONMENT}"
-
+                    echo "Selected case ${case}"
                     if (params.ENVIRONMENT == 'Dev') {
                         echo "Deploying to Development environment"
                     } else if (params.ENVIRONMENT == 'QA') {
