@@ -15,11 +15,13 @@ string(name: 'GIT_TAG', defaultValue: '', description: 'Enter the Git tag to dep
         choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'prod'], description: 'Select the environment to deploy to')
         ])
     ])
-  
+      def BUILD_VERSION = sh(script: 'echo "b${BUILD_ID}_$(date +%Y%m%d)"', returnStdout: true).trim()
+
     try {
         stage('Checkout') {
                     checkout scm
                     echo "Checking out Git tag: ${params.GIT_TAG}"
+                    echo "BUILD_VERSION ${BUILD_VERSION}"
                     sh "git checkout ${params.GIT_TAG}"
                 }
 
