@@ -1,17 +1,21 @@
 node("ubuntu_java-11_docker-20") {
+    properties([
+        parameters([
+            booleanParam(
+                name: 'checkmarx_scan',
+                description: 'Launch Checkmarx policy scan',
+                defaultValue: false
+            ),
+            booleanParam(
+                name: 'sonar_scan',
+                description: 'Launch Sonar scan',
+                defaultValue: true
+            )
+        ])
+    ])
     parameters {
         string(name: 'GIT_TAG', defaultValue: '', description: 'Enter the Git tag to deploy')
         choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'prod'], description: 'Select the environment to deploy to')
-        booleanParam(
-                            name: 'checkmarx_scan',
-                            description: 'Launch Checkmarx policy scan',
-                            defaultValue: false
-                    ),
-                    booleanParam(
-                            name: 'sonar_scan',
-                            description: 'Launch Sonar scan',
-                            defaultValue: true
-                    )
     }
     try {
         stage('Checkout') {
