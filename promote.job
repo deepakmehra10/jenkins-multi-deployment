@@ -19,6 +19,7 @@ node("ubuntu_java-11_docker-20") {
     }
     try {
         stage('Checkout') {
+                    checkout scm
                     echo "Checking out Git tag: ${params.GIT_TAG}"
                     sh "git checkout ${params.GIT_TAG}"
                 }
