@@ -11,6 +11,7 @@ node("ubuntu_java-11_docker-20") {
 
         stage('Deploy') {
                     echo "Deploying to environment: ${params.ENVIRONMENT}"
+                        echo "deployment ${params.deployment}"
                     echo "Selected case ${params.case}"
                     if (params.ENVIRONMENT == 'Dev') {
                         echo "Deploying to Development environment"
